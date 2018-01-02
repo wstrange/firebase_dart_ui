@@ -1,0 +1,32 @@
+name: firebase_dart_ui.example
+description: Firebase UI wrapper Example
+version: 0.0.1
+
+environment:
+  sdk: '>=2.0.0-dev.15.0 <2.0.0'
+
+dependencies:
+  angular:  5.0.0-alpha+2
+  firebase: ^4.2.0+1
+  browser: ^0.10.0
+  firebase_dart_ui:
+    path: ../../firebase_dart_ui
+
+dev_dependencies:
+  angular_test: ^1.0.0
+  dart_to_js_script_rewriter: ^1.0.1
+
+dependency_overrides:
+  # Necessary with angular: 5.0.0-alpha+1 dependency.
+  analyzer: ^0.31.0-alpha.1
+transformers:
+- angular:
+    entry_points:
+      - web/main.dart
+- dart_to_js_script_rewriter
+
+# Uncomment the following in sdk 1.24+ to make pub serve
+# use dartdevc (webdev.dartlang.org/tools/dartdevc).
+web:
+  compiler:
+    debug: dartdevc
