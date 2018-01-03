@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:angular/angular.dart';
 import 'auth_ui_js.dart';
 import 'package:firebase/firebase.dart' as fb;
@@ -21,13 +20,12 @@ class FirebaseAuthUIComponent implements OnInit {
 
   @override
   ngOnInit() {
-    var auth = fb.auth();
-    init(auth);
+    _init(fb.auth());
   }
 
-  void init(fb.Auth auth) {
+  void _init(fb.Auth auth) {
     _authUI = new AuthUI(auth);
-    print("auth ui $_authUI uiConfig is ${uiConfig}");
+    //print("auth ui $_authUI uiConfig is ${uiConfig}");
 
     _authUI.disableAutoSignIn();
 

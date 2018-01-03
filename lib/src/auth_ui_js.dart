@@ -2,6 +2,7 @@
 library firebaseui.auth;
 import 'package:js/js.dart';
 
+
 /// See https://github.com/firebase/firebaseui-web
 
 ///
@@ -34,10 +35,13 @@ abstract class GoogleCustomParameters {
 }
 
 @JS()
+@anonymous
 abstract class CustomSignInOptions {
   external String get provider;
   external List<String> get scopes;
   external dynamic get customParameters;
+
+  external factory CustomSignInOptions({provider, scopes: const [], customParameters });
 }
 
 @anonymous

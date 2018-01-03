@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:firebase_dart_ui/firebase_dart_ui.dart';
 import 'package:firebase/firebase.dart' as fb;
@@ -8,42 +9,65 @@ import 'main.template.dart' as ng;
 @Component(
   selector: 'my-app',
   template: '''
+  
+  <div *ngIf="!isAuthenticated()">
+        <p>Login</p>
+    </div>
+    
     <firebase-auth-ui [uiConfig]="getUIConfig()"></firebase-auth-ui>
+    
     <br/>
-    User email: <p>{{userEmail}}</p>
-    <button *ngIf="isAuthenticated()" (click)="logout()">Logout</button>
+    <div *ngIf="isAuthenticated()">
+      Authenticated!
+      <p>User email: {{userEmail}}  Display Name: {{displayName}}</p>
+      <button (click)="logout()">Logout</button>
+    </div>
+     
+    
 ''',
   directives: const [NgIf,FirebaseAuthUIComponent],
   providers: const [],
 )
 class MyApp {
-  void logout() {
-    fb.auth().signOut();
+
+  UIConfig _uiConfig;
+
+  Future<Null> logout() async {
+    await fb.auth().signOut();
   }
 
   UIConfig getUIConfig() {
-    return new UIConfig(
-        signInSuccessUrl: '/',
-        signInOptions: [
-            fb.GoogleAuthProvider.PROVIDER_ID,
+    if(  _uiConfig == null ) {
+      var googParms = new GoogleCustomParameters(prompt: 'select_account');
+      var goog = new CustomSignInOptions(provider: fb.GoogleAuthProvider.PROVIDER_ID,
+          scopes: ['email', 'https://www.googleapis.com/auth/plus.login'],
+          customParameters: googParms);
+
+     _uiConfig = new UIConfig(
+          signInSuccessUrl: '/',
+          signInOptions: [
+            goog,
             fb.EmailAuthProvider.PROVIDER_ID],
-        signInFlow: "redirect",
-        tosUrl: '/tos.html');
+          //signInFlow: "redirect",
+          signInFlow: "popup",
+
+          tosUrl: '/tos.html');
+    }
+    return _uiConfig;
   }
 
   bool isAuthenticated() =>  fb.auth().currentUser != null;
-
   String  get userEmail => fb.auth().currentUser?.email;
+  String  get displayName => fb.auth().currentUser?.displayName;
 }
 
 void main() {
   fb.initializeApp(
-    apiKey: "AIzaSyDnUqmvH4XC5v7G_f49qVcP2_ICWuid0io",
-    authDomain: "nextplz-f78ac.firebaseapp.com",
-    databaseURL: "https://nextplz-f78ac.firebaseio.com",
-    storageBucket: "nextplz-f78ac.appspot.com",
+      apiKey: "AIzaSyDPrD6QfOfRutNAUBqC0sJs51kaUia3xzg",
+      authDomain: "dart-ui-demo.firebaseapp.com",
+      databaseURL: "https://dart-ui-demo.firebaseio.com",
+      storageBucket: "dart-ui-demo.appspot.com",
   );
-
 
   bootstrapStatic(
       MyApp,
