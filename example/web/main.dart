@@ -3,6 +3,8 @@ import 'package:angular/angular.dart';
 import 'package:firebase_dart_ui/firebase_dart_ui.dart';
 import 'package:firebase/firebase.dart' as fb;
 
+import 'package:js/js.dart';
+
 // ignore: uri_has_not_been_generated
 import 'main.template.dart' as ng;
 
@@ -20,6 +22,7 @@ import 'main.template.dart' as ng;
     <div *ngIf="isAuthenticated()">
       Authenticated!
       <p>User email: {{userEmail}}  Display Name: {{displayName}}</p>
+      <p>User Json: {{userJson}}</p>
       <button (click)="logout()">Logout</button>
     </div>
      
@@ -36,22 +39,34 @@ class MyApp {
     await fb.auth().signOut();
   }
 
+  dynamic signInSuccess(dynamic currentUser, dynamic credential, String redirectUrl) {
+    print("***** $currentUser  $credential $redirectUrl");
+    return true;
+  }
+  
   UIConfig getUIConfig() {
     if(  _uiConfig == null ) {
       var googParms = new GoogleCustomParameters(prompt: 'select_account');
       var goog = new CustomSignInOptions(provider: fb.GoogleAuthProvider.PROVIDER_ID,
           scopes: ['email', 'https://www.googleapis.com/auth/plus.login'],
-          customParameters: googParms);
+          // customParameters: googParms
+      );
+
+      var callbacks =  new Callbacks(
+          uiShown: allowInterop( () => print("UI shown!!")),
+          signInSuccess: allowInteropCaptureThis(signInSuccess));
 
      _uiConfig = new UIConfig(
           signInSuccessUrl: '/',
           signInOptions: [
             goog,
             fb.EmailAuthProvider.PROVIDER_ID],
-          //signInFlow: "redirect",
-          signInFlow: "popup",
-
-          tosUrl: '/tos.html');
+          signInFlow: "redirect",
+          //signInFlow: "popup",
+          credentialHelper: GOOGLE_YOLO,
+          tosUrl: '/tos.html',
+          //callbacks: callbacks
+      );
     }
     return _uiConfig;
   }
@@ -59,6 +74,7 @@ class MyApp {
   bool isAuthenticated() =>  fb.auth().currentUser != null;
   String  get userEmail => fb.auth().currentUser?.email;
   String  get displayName => fb.auth().currentUser?.displayName;
+  Map<String,dynamic>  get userJson => fb.auth().currentUser?.toJson();
 }
 
 void main() {
