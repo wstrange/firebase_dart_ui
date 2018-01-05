@@ -16,7 +16,7 @@ import 'main.template.dart' as ng;
         <p>Login</p>
     </div>
     
-    <firebase-auth-ui [uiConfig]="getUIConfig()"></firebase-auth-ui>
+    <firebase-auth-ui [disableAutoSignIn]="true" [uiConfig]="getUIConfig()"></firebase-auth-ui>
     
     <br/>
     <div *ngIf="isAuthenticated()">
@@ -39,33 +39,30 @@ class MyApp {
     await fb.auth().signOut();
   }
 
-  dynamic signInSuccess(dynamic currentUser, dynamic credential, String redirectUrl) {
-    print("***** $currentUser  $credential $redirectUrl");
-    return true;
-  }
   
   UIConfig getUIConfig() {
     if(  _uiConfig == null ) {
-      var googParms = new GoogleCustomParameters(prompt: 'select_account');
       var goog = new CustomSignInOptions(provider: fb.GoogleAuthProvider.PROVIDER_ID,
           scopes: ['email', 'https://www.googleapis.com/auth/plus.login'],
-          // customParameters: googParms
+          customParameters:  new GoogleCustomParameters(prompt: 'select_account')
       );
 
+      // The signInSuccess callback is not working...
       var callbacks =  new Callbacks(
           uiShown: allowInterop( () => print("UI shown!!")),
-          signInSuccess: allowInteropCaptureThis(signInSuccess));
+          signInSuccess: allowInterop( (a,b,c) => print("siginin called")));
 
      _uiConfig = new UIConfig(
           signInSuccessUrl: '/',
           signInOptions: [
             goog,
-            fb.EmailAuthProvider.PROVIDER_ID],
+            fb.EmailAuthProvider.PROVIDER_ID,
+            fb.GithubAuthProvider.PROVIDER_ID],
           signInFlow: "redirect",
           //signInFlow: "popup",
           credentialHelper: GOOGLE_YOLO,
           tosUrl: '/tos.html',
-          //callbacks: callbacks
+          callbacks: callbacks
       );
     }
     return _uiConfig;

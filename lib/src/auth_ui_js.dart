@@ -25,7 +25,7 @@ const NONE = "none";
 @JS()
 @anonymous
 abstract class Callbacks {
-  external signInSuccess(Func3<dynamic,dynamic,String,dynamic> signInSuccess);
+  external signInSuccess(Func3<dynamic,dynamic,String,dynamic> sss);
   external uiShown(VoidFunc0 update);
 
   external factory Callbacks({uiShown, signInSuccess});
