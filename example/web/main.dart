@@ -49,8 +49,9 @@ class MyApp {
 
       // The signInSuccess callback is not working...
       var callbacks =  new Callbacks(
-          uiShown: allowInterop( () => print("UI shown!!")),
-          signInSuccess: allowInterop( (a,b,c) => print("siginin called")));
+          uiShown: allowInterop( () => print("UI shown!!"))
+          //signInSuccess: allowInterop( (a,b,c) => print("siginin called"))
+    );
 
      _uiConfig = new UIConfig(
           signInSuccessUrl: '/',
@@ -75,7 +76,7 @@ class MyApp {
 }
 
 void main() {
-  fb.initializeApp(
+  var app = fb.initializeApp(
       apiKey: "AIzaSyDPrD6QfOfRutNAUBqC0sJs51kaUia3xzg",
       authDomain: "dart-ui-demo.firebaseapp.com",
       databaseURL: "https://dart-ui-demo.firebaseio.com",

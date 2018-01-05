@@ -4,14 +4,14 @@ WIP!
 
 A dart wrapper for https://github.com/firebase/firebaseui-web.
 
-Enables an application to user Firebase Authentication. 
+Enables an application to user FirebaseUI Authentication. 
 
-See the `example/` application for a demo.
+A demo app is [hosted online here](https://dart-ui-demo.firebaseapp.com/)
 
 
-# To enable:
+# Enabling the UI
 
-Add this to your index.html <head> section:
+You must add this to your index.html <head> section:
 
 ```html
 <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
@@ -19,11 +19,27 @@ Add this to your index.html <head> section:
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 ```
 
+See the `example/` application.
+
+# Running the demo
+
+With DDC:
+
+```
+cd example
+pub serve
+# open localhost:8080
+```
+
+If you want to use your our own firebase project to test, you must edit main.dart and
+enter in your project credentials.  Build the example using `pub build`.
+ 
+To upload, create a firebase .firebaserc, then
+upload to your project using `firebase deploy --only hosting`
 
 # Issues
-* There is a T._check type error thrown in dart_sdk.js that is logged to the 
-console. The example app appears to work anyways. Suggestions welcome on how to fix this!
+
 * The provider implementations need to be fleshed out (phone provider, for example)
-* The signInSuccess callback does not get invoked. JS interop issue. Again - suggestions
+* The signInSuccess callback does not get invoked. JS interop issue. Suggestions
 welcome.
 

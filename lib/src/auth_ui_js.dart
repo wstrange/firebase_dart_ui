@@ -6,6 +6,9 @@ import 'package:func/func.dart';
 
 /// See https://github.com/firebase/firebaseui-web
 
+@JS("AuthUI.getInstance")
+external AuthUI getInstance(String appId);
+
 ///
 @JS('AuthUI')
 class AuthUI {
@@ -14,6 +17,8 @@ class AuthUI {
   external start(obj,options);
 
   external disableAutoSignIn();
+
+  external reset();
 }
 
 // Valid values for the credential helper
@@ -25,10 +30,11 @@ const NONE = "none";
 @JS()
 @anonymous
 abstract class Callbacks {
-  external signInSuccess(Func3<dynamic,dynamic,String,dynamic> sss);
+  //external signInSuccess(Func3<dynamic,dynamic,String,dynamic> sss);
   external uiShown(VoidFunc0 update);
 
-  external factory Callbacks({uiShown, signInSuccess});
+  //external factory Callbacks({uiShown, signInSuccess});
+  external factory Callbacks({uiShown});
 }
 
 @JS()
