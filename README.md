@@ -31,11 +31,16 @@ pub serve
 # open localhost:8080
 ```
 
-If you want to use your our own firebase project to test, you must edit main.dart and
-enter in your project credentials.  Build the example using `pub build`.
+To use your our own firebase project to test, you must edit main.dart and
+enter in your project credentials. Also edit example/.firebaserc and enter your project name. 
+Build and deploy the example:
  
-To upload, create a firebase .firebaserc, then
-upload to your project using `firebase deploy --only hosting`
+```
+cd example
+pub build
+firebase deploy
+ ```
+ 
 
 # Issues
 
