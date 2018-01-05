@@ -1,17 +1,24 @@
 # firebase_dart_ui
 
-WIP!
 
-A dart wrapper for https://github.com/firebase/firebaseui-web.
-
-Enables an application to user FirebaseUI Authentication. 
+A dart wrapper for https://github.com/firebase/firebaseui-web. This is a Javascript library
+that is maintained by the Firebase team, that provides comprehensive sign on flows. 
 
 A demo app is [hosted online here](https://dart-ui-demo.firebaseapp.com/)
 
+This library wraps the FirebaseUI library as an Angular component `<firebase-auth-ui>`. It used to  
+handle [Firebase Authentication](https://firebase.google.com/docs/auth/) for your application.
 
-# Enabling the UI
 
-You must add this to your index.html <head> section:
+The component is visible when the user has not been authenticated. It presents a dialog with
+ the various social login and email providers that have been configured. Once the user
+has authenticated, the components display attribute is set to `none`.  Embed this component
+on your landing page for your SPA application.
+
+
+# Important
+
+You must add these lines to your index.html `<head>` section:
 
 ```html
 <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
@@ -19,7 +26,7 @@ You must add this to your index.html <head> section:
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 ```
 
-See the `example/` application.
+See the [example/](https://github.com/wstrange/firebase_dart_ui/tree/master/example) application.
 
 # Running the demo
 
@@ -31,8 +38,9 @@ pub serve
 # open localhost:8080
 ```
 
-To use your our own firebase project to test, you must edit main.dart and
+To use your our own Firebase project to test, you must edit main.dart and
 enter in your project credentials. Also edit example/.firebaserc and enter your project name. 
+
 Build and deploy the example:
  
 ```
@@ -42,9 +50,8 @@ firebase deploy
  ```
  
 
-# Issues
+# Known Issues
 
 * The provider implementations need to be fleshed out (phone provider, for example)
 * The signInSuccess callback does not get invoked. JS interop issue. Suggestions
 welcome.
-

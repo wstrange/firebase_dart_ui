@@ -61,7 +61,7 @@ class MyApp {
             fb.GithubAuthProvider.PROVIDER_ID],
           signInFlow: "redirect",
           //signInFlow: "popup",
-          credentialHelper: GOOGLE_YOLO,
+          credentialHelper: ACCOUNT_CHOOSER,
           tosUrl: '/tos.html',
           callbacks: callbacks
       );
@@ -76,7 +76,7 @@ class MyApp {
 }
 
 void main() {
-  var app = fb.initializeApp(
+  fb.initializeApp(
       apiKey: "AIzaSyDPrD6QfOfRutNAUBqC0sJs51kaUia3xzg",
       authDomain: "dart-ui-demo.firebaseapp.com",
       databaseURL: "https://dart-ui-demo.firebaseio.com",

@@ -28,7 +28,7 @@ class FirebaseAuthUIComponent implements OnInit {
 
   @override
   ngOnInit() {
-    // we now initialize in the constructor.
+    // we now initialize in the constructor.Not clear that we need this.
   }
 
   void _init(fb.Auth auth) {
@@ -39,21 +39,21 @@ class FirebaseAuthUIComponent implements OnInit {
 
     if (a != null ) {
       _authUI = a;
-      print("Debug - ${auth.app.name} options = ${auth.app.options} auth ui = ${_authUI}");
+      //print("Debug - ${auth.app.name} options = ${auth.app.options} auth ui = ${_authUI}");
     }
     // otherwise create a new instance.
     if( _authUI == null ) {
       _authUI = new AuthUI(auth.jsObject);
     }
 
-    //print("auth ui $_authUI uiConfig is ${uiConfig}");
+    //print("DEBUG auth ui $_authUI uiConfig is ${uiConfig}");
 
     fb.auth().onAuthStateChanged.listen( (user) {
-      print("User state changed $user");
+      // print("DEBUG User state changed $user");
       authenticated = false;
       if( user != null ) {
         authenticated = true;
-        print("Authenticated user = ${user.toJson()}");
+        // print("DEBUG Authenticated user = ${user.toJson()}");
       }
       else {
         start();
@@ -65,7 +65,6 @@ class FirebaseAuthUIComponent implements OnInit {
     // print("Starting the UI");
     if( disableAutoSignIn)
       _authUI.disableAutoSignIn();
-    //_authUI.reset();
     _authUI.start('#firebaseui-auth-container', uiConfig);
   }
 

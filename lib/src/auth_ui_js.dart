@@ -9,7 +9,6 @@ import 'package:func/func.dart';
 @JS("AuthUI.getInstance")
 external AuthUI getInstance(String appId);
 
-///
 @JS('AuthUI')
 class AuthUI {
   external AuthUI(Object fb);
@@ -33,6 +32,7 @@ abstract class Callbacks {
   //external signInSuccess(Func3<dynamic,dynamic,String,dynamic> sss);
   external uiShown(VoidFunc0 update);
 
+  // This isn't working right now - revisit.
   //external factory Callbacks({uiShown, signInSuccess});
   external factory Callbacks({uiShown});
 }
