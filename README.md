@@ -1,13 +1,13 @@
 # firebase_dart_ui
 
 
-A dart wrapper for https://github.com/firebase/firebaseui-web. FirebaseUI is a Javascript library
-maintained by the Firebase team that provides sign on flows.  This library provides a Dart wrapper 
-around FirebaseUI as an Angular component. 
+A dart wrapper for [FirebaseUI](https://github.com/firebase/firebaseui-web), a Javascript library
+that provides sign on flows.  This library provides an Angular Dart wrapper 
+around FirebaseUI. 
 
 A demo app is [hosted online here](https://dart-ui-demo.firebaseapp.com/)
 
-The Angular component `<firebase-auth-ui>` will handle
+The Angular component `<firebase-auth-ui>` handles
  [Firebase Authentication](https://firebase.google.com/docs/auth/) for your application.
 
 
@@ -22,7 +22,7 @@ on your landing page for your SPA application.
 You must add these lines to your index.html `<head>` section:
 
 ```html
-<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 ```
