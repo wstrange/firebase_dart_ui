@@ -1,13 +1,14 @@
 # firebase_dart_ui
 
 
-A dart wrapper for https://github.com/firebase/firebaseui-web. This is a Javascript library
-that is maintained by the Firebase team, that provides comprehensive sign on flows. 
+A dart wrapper for https://github.com/firebase/firebaseui-web. FirebaseUI is a Javascript library
+maintained by the Firebase team that provides sign on flows.  This library provides a Dart wrapper 
+around FirebaseUI as an Angular component. 
 
 A demo app is [hosted online here](https://dart-ui-demo.firebaseapp.com/)
 
-This library wraps the FirebaseUI library as an Angular component `<firebase-auth-ui>`. It used to  
-handle [Firebase Authentication](https://firebase.google.com/docs/auth/) for your application.
+The Angular component `<firebase-auth-ui>` will handle
+ [Firebase Authentication](https://firebase.google.com/docs/auth/) for your application.
 
 
 The component is visible when the user has not been authenticated. It presents a dialog with

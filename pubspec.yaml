@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   angular:  ^5.0.0-alpha+2
-  firebase: ^4.2.0+1
+  firebase: ^4.3.0
   js: ^0.6.0
   func: "^1.0.0"
 
