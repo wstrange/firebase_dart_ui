@@ -28,59 +28,58 @@ import 'main.template.dart' as ng;
      
     
 ''',
-  directives: const [NgIf,FirebaseAuthUIComponent],
+  directives: const [NgIf, FirebaseAuthUIComponent],
   providers: const [],
 )
 class MyApp {
-
   UIConfig _uiConfig;
 
   Future<Null> logout() async {
     await fb.auth().signOut();
   }
 
-  
   UIConfig getUIConfig() {
-    if(  _uiConfig == null ) {
-      var goog = new CustomSignInOptions(provider: fb.GoogleAuthProvider.PROVIDER_ID,
+    if (_uiConfig == null) {
+      var goog = new CustomSignInOptions(
+          provider: fb.GoogleAuthProvider.PROVIDER_ID,
           scopes: ['email', 'https://www.googleapis.com/auth/plus.login'],
-          customParameters:  new GoogleCustomParameters(prompt: 'select_account')
-      );
+          customParameters:
+              new GoogleCustomParameters(prompt: 'select_account'));
 
       // The signInSuccess callback is not working...
-      var callbacks =  new Callbacks(
-          uiShown: allowInterop( () => print("UI shown!!"))
-          //signInSuccess: allowInterop( (a,b,c) => print("siginin called"))
-    );
+      var callbacks =
+          new Callbacks(uiShown: allowInterop(() => print("UI shown!!"))
+              //signInSuccess: allowInterop( (a,b,c) => print("siginin called"))
+              );
 
-     _uiConfig = new UIConfig(
+      _uiConfig = new UIConfig(
           signInSuccessUrl: '/',
           signInOptions: [
             goog,
             fb.EmailAuthProvider.PROVIDER_ID,
-            fb.GithubAuthProvider.PROVIDER_ID],
+            fb.GithubAuthProvider.PROVIDER_ID
+          ],
           signInFlow: "redirect",
           //signInFlow: "popup",
           credentialHelper: ACCOUNT_CHOOSER,
           tosUrl: '/tos.html',
-          callbacks: callbacks
-      );
+          callbacks: callbacks);
     }
     return _uiConfig;
   }
 
-  bool isAuthenticated() =>  fb.auth().currentUser != null;
-  String  get userEmail => fb.auth().currentUser?.email;
-  String  get displayName => fb.auth().currentUser?.displayName;
-  Map<String,dynamic>  get userJson => fb.auth().currentUser?.toJson();
+  bool isAuthenticated() => fb.auth().currentUser != null;
+  String get userEmail => fb.auth().currentUser?.email;
+  String get displayName => fb.auth().currentUser?.displayName;
+  Map<String, dynamic> get userJson => fb.auth().currentUser?.toJson();
 }
 
 void main() {
   fb.initializeApp(
-      apiKey: "AIzaSyDPrD6QfOfRutNAUBqC0sJs51kaUia3xzg",
-      authDomain: "dart-ui-demo.firebaseapp.com",
-      databaseURL: "https://dart-ui-demo.firebaseio.com",
-      storageBucket: "dart-ui-demo.appspot.com",
+    apiKey: "AIzaSyDPrD6QfOfRutNAUBqC0sJs51kaUia3xzg",
+    authDomain: "dart-ui-demo.firebaseapp.com",
+    databaseURL: "https://dart-ui-demo.firebaseio.com",
+    storageBucket: "dart-ui-demo.appspot.com",
   );
 
   bootstrapStatic(

@@ -1,28 +1,20 @@
 name: firebase_dart_ui
 description: An Angular Dart wrapper for Firebase UI.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/wstrange/firebase_dart_ui
 author: Warren Strange <warren.strange@gmail.com>
 
 environment:
-  sdk: '>=2.0.0-dev.15.0 <2.0.0'
+  sdk: '>=2.0.0-dev.23.0 <2.0.0'
 
 dependencies:
-  angular:  ^5.0.0-alpha+2
+  angular:  ^5.0.0-alpha+5
   firebase: ^4.3.0
   js: ^0.6.0
   func: "^1.0.0"
 
 dev_dependencies:
-  browser: ^0.10.0
-  dart_to_js_script_rewriter: ^1.0.1
-#
-#dependency_overrides:
-#  # Necessary with angular: 5.0.0-alpha+1 dependency.
-#  analyzer: ^0.31.0-alpha.1
-#
-transformers:
-- angular:
-    entry_points:
-      - example/web/main.dart
-- dart_to_js_script_rewriter
+  build_runner: ^0.7.10
+  build_web_compilers: ^0.3.0
+  webdriver: ^1.2.1
+

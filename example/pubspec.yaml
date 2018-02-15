@@ -6,26 +6,16 @@ environment:
   sdk: '>=2.0.0-dev.15.0 <2.0.0'
 
 dependencies:
-  angular:  ^5.0.0-alpha+2
+  angular:  ^5.0.0-alpha+5
   firebase: ^4.3.0
-  browser: ^0.10.0
   firebase_dart_ui:
     path: ../../firebase_dart_ui
 
+
 dev_dependencies:
-  dart_to_js_script_rewriter: ^1.0.1
+  build_runner: ^0.7.10+1
+  build_web_compilers: ^0.3.0
+  webdriver: ^1.2.1
+  # todo: Why is this needed?
+  barback: any
 
-dependency_overrides:
-  # Necessary with angular: 5.0.0-alpha+1 dependency.
-  analyzer: ^0.31.0-alpha.1
-transformers:
-- angular:
-    entry_points:
-      - web/main.dart
-- dart_to_js_script_rewriter
-
-# Uncomment the following in sdk 1.24+ to make pub serve
-# use dartdevc (webdev.dartlang.org/tools/dartdevc).
-web:
-  compiler:
-    debug: dartdevc
