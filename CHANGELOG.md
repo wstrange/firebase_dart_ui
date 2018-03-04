@@ -6,7 +6,7 @@
 
 ## 0.0.3
 
-- Support for siginInSucces callbacl. 
+- Support for siginInSucces callback. 
 - Extended sample to demonstrate getting the providers access token
 
 

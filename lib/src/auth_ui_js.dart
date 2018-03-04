@@ -51,8 +51,6 @@ abstract class Callbacks {
 
   external uiShown(VoidFunc0 update);
 
-  // This isn't working right now - revisit.
-  //external factory Callbacks({uiShown, signInSuccess});
   external factory Callbacks({signInSuccess, signInFailure, uiShown});
 }
 
