@@ -35,7 +35,7 @@ With DDC:
 
 ```
 cd example
-pub serve
+pub run build_runner serve
 # open localhost:8080
 ```
 

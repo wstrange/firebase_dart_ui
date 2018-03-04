@@ -1,14 +1,14 @@
 import 'package:angular/angular.dart';
 import 'auth_ui_js.dart';
 import 'package:firebase/firebase.dart' as fb;
-
+/// Component that wrap the Firebase Javascript Auth UI library
 @Component(
   selector: 'firebase-auth-ui',
   templateUrl: 'firebase_auth_ui_component.html',
   directives: const [NgIf],
   providers: const [],
 )
-class FirebaseAuthUIComponent implements OnInit {
+class FirebaseAuthUIComponent  {
   AuthUI _authUI;
   bool authenticated = false;
 
@@ -25,11 +25,6 @@ class FirebaseAuthUIComponent implements OnInit {
   }
 
   fb.Auth _auth;
-
-  @override
-  ngOnInit() {
-    // we now initialize in the constructor.Not clear that we need this.
-  }
 
   void _init(fb.Auth auth) {
     //print("DEBUG auth= ${auth.app.options.apiKey}  user=${auth.currentUser}");
@@ -54,12 +49,13 @@ class FirebaseAuthUIComponent implements OnInit {
         authenticated = true;
         // print("DEBUG Authenticated user = ${user.toJson()}");
       } else {
-        start();
+        _start();
       }
     });
   }
 
-  void start() {
+
+  void _start() {
     // print("Starting the UI");
     if (disableAutoSignIn) _authUI.disableAutoSignIn();
     _authUI.start('#firebaseui-auth-container', uiConfig);
@@ -71,4 +67,5 @@ class FirebaseAuthUIComponent implements OnInit {
     //print("Check display = ${fb.auth().currentUser}");
     return fb.auth().currentUser == null ? "block" : "none";
   }
+
 }
