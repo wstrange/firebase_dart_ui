@@ -9,4 +9,9 @@
 - Support for siginInSucces callback. 
 - Extended sample to demonstrate getting the providers access token
 
+### 0.1.0 
+
+- Dart 2 support
+
+
 
