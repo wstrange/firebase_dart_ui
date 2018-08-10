@@ -2,7 +2,6 @@
 library firebaseui.auth;
 
 import 'package:js/js.dart';
-import 'package:func/func.dart';
 import 'package:firebase/firebase.dart' as fb;
 
 /// Provides JS / Dart interop
@@ -39,6 +38,17 @@ abstract class AuthUIError {
   // currently not mapped. Do we really need it?
   // external dynamic get credential;
 }
+
+// todo: Do we need these typedefs with Dart 2?
+typedef R Func0<R>();
+typedef R Func1<A, R>(A a);
+typedef R Func3<A, B, C, R>(A a, B b, C c);
+typedef R Func2Opt1<A, B, R>(A a, [B b]);
+typedef VoidFunc3Opt1<A, B, C>(A a, B b, [C c]);
+
+typedef void VoidFunc0();
+typedef void VoidFunc1<A>(A a);
+
 
 @JS()
 @anonymous

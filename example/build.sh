@@ -3,7 +3,7 @@
 
 rm -fr build
 
-pub run build_runner build --output build
+webdev build
 
 firebase deploy
 
