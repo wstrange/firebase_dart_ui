@@ -40,7 +40,7 @@ With DDC:
 
 ```
 cd example
-pub run build_runner serve
+webdev serve
 # open localhost:8080
 ```
 
@@ -51,7 +51,7 @@ enter in your project credentials. Also edit example/.firebaserc and enter your 
  
 ```
 cd example
-pub run builder_runner build  --output build
+webdev build
 firebase deploy
  ```
  
