@@ -4,6 +4,11 @@ library firebaseui.auth;
 import 'package:js/js.dart';
 import 'package:firebase/firebase.dart' as fb;
 
+// The following imports reach into the Firebase Dart implementation
+import 'package:firebase/src/interop/auth_interop.dart' show AuthJsImpl;
+import 'package:firebase/src/interop/firebase_interop.dart' show PromiseJsImpl;
+
+
 /// Provides JS / Dart interop
 /// See https://github.com/firebase/firebaseui-web for the JS API
 
@@ -12,10 +17,16 @@ external AuthUI getInstance(String appId);
 
 @JS('AuthUI')
 class AuthUI {
-  external AuthUI(Object fb);
-  external start(obj, options);
-  external disableAutoSignIn();
-  external reset();
+  // Important - pass fbAuth as a ".jsObject" without the Dart wrapper
+  external AuthUI(AuthJsImpl fbAuth, [String appId]);
+  external void start(String element, UIConfig config);
+  external void disableAutoSignIn();
+  external bool isAutoSignInDisabled();
+  external bool isPending();
+  external bool isPendingRedirect();
+
+  external PromiseJsImpl delete();
+  external void reset();
 }
 
 // Valid values for the credential helper
@@ -39,34 +50,35 @@ abstract class AuthUIError {
   // external dynamic get credential;
 }
 
-// todo: Do we need these typedefs with Dart 2?
-typedef R Func0<R>();
-typedef R Func1<A, R>(A a);
-typedef R Func3<A, B, C, R>(A a, B b, C c);
-typedef R Func2Opt1<A, B, R>(A a, [B b]);
-typedef VoidFunc3Opt1<A, B, C>(A a, B b, [C c]);
-
-typedef void VoidFunc0();
-typedef void VoidFunc1<A>(A a);
-
+// Convenience definitions of below Callback interfaces
+typedef SignInAuthResultSuccess = bool Function(fb.UserCredential authResult, String redirectUrl);
+typedef SignInSuccess = bool Function(fb.User currentUser, AuthCredential credential, String redirectUrl);
+typedef SignInFailure = PromiseJsImpl<void> Function(AuthUIError error);
 
 @JS()
 @anonymous
 abstract class Callbacks {
-  // signInSuccess(currentUser, credential, redirectUrl)
-  external void signInSuccess(
-      VoidFunc3Opt1<fb.User, AuthCredential, String> sss);
+  external SignInAuthResultSuccess get signInSuccessWithAuthResult;
+  external SignInSuccess get signInSuccess;
+  external SignInFailure get signInFailure;
+  external void Function() get uiShown;
 
-  external void signInFailure(VoidFunc1<AuthUIError> e);
-
-  external uiShown(VoidFunc0 update);
-
-  external factory Callbacks({signInSuccess, signInFailure, uiShown});
+  external factory Callbacks({
+    SignInAuthResultSuccess signInSuccessWithAuthResult,   // <--new in 2.7.0
+    SignInSuccess signInSuccess,           // <--deprecated in 2.7.0
+    SignInFailure signInFailure,
+    void Function() uiShown
+  });
 }
 
 @JS()
 @anonymous
-abstract class FacebookCustomParameters {
+abstract class CustomParameters {}
+
+
+@JS()
+@anonymous
+abstract class FacebookCustomParameters extends CustomParameters {
   external String get authType;
 
   external factory FacebookCustomParameters({authType: 'reauthenticate'});
@@ -74,10 +86,18 @@ abstract class FacebookCustomParameters {
 
 @JS()
 @anonymous
-abstract class GoogleCustomParameters {
+abstract class GoogleCustomParameters extends CustomParameters {
   external String get prompt;
 
   external factory GoogleCustomParameters({prompt: 'select_account'});
+}
+
+@JS()
+@anonymous
+abstract class EmailCustomParameters extends CustomParameters {
+  external bool get requireDisplayName;
+
+  external factory EmailCustomParameters({requireDisplayName: true});
 }
 
 @JS()
@@ -88,28 +108,25 @@ abstract class CustomSignInOptions {
   external dynamic get customParameters;
 
   external factory CustomSignInOptions(
-      {provider, scopes: const [], customParameters});
+    {provider, scopes: const [], CustomParameters customParameters});
 }
 
 @anonymous
 @JS()
 abstract class UIConfig {
+  external List<dynamic> get signInOptions;
   external Callbacks get callbacks;
-
   external String get signInSuccessUrl;
+  external String get signInFlow;   // redirect or popup
+  external String get tosUrl;       // Terms of service URL
+  external String get credentialHelper;
 
-  external List<String> get signInOptions;
-
-  // Terms of service URL
-  external String get tosUrl;
-
-  // redirect or popup
-  external String get signInFlow;
-  external factory UIConfig(
-      {String signInSuccessUrl,
-      String credentialHelper = ACCOUNT_CHOOSER,
-      List<dynamic> signInOptions,
-      String signInFlow = "redirect",
-      String tosUrl,
-      callbacks});
+  external factory UIConfig({
+    List<dynamic> signInOptions,
+    Callbacks callbacks,
+    String signInSuccessUrl,
+    String signInFlow = "redirect",
+    String tosUrl,
+    String credentialHelper = ACCOUNT_CHOOSER,
+  });
 }
