@@ -3,6 +3,11 @@ import 'package:angular/angular.dart';
 import 'package:firebase_dart_ui/firebase_dart_ui.dart';
 import 'package:firebase/firebase.dart' as fb;
 
+
+import 'package:firebase/src/interop/firebase_interop.dart';
+
+import "dart:html";
+
 import 'package:js/js.dart';
 
 import 'dart:js';
@@ -43,27 +48,20 @@ class MyApp {
     providerAccessToken = "";
   }
 
-  // Example SignInSuccess callback handler
-  void signInSuccess(fb.User currentUser, AuthCredential credential, redirectUrl) {
-    print("sigin in success $currentUser $credential $redirectUrl");
-    print("user display name = ${currentUser.displayName}");
-    // The credential returned here is that of the provider (e.g. google)
-    // and is NOT the firebase credential.
-    // If the user is already authenticated at firebase, the credential
-    // may not be set when the page is loaded.  If you want to access the
-    // credential (for example, to make API calls directly with the provider)
-    // You may have to force the user to login. That will cause the user to
-    // be redirected to the provider, and the access token / id token will be
-    // set.
-    if( credential != null) {
-      print(
-        """
-        provider: ${credential.providerId} 
-        access token:  ${credential.accessToken}
-        idToken: ${credential.idToken}""");
 
-        providerAccessToken = credential.accessToken;
-    }
+  // todo: We need to create a nicer wrapper for the sign in callbacks.
+  PromiseJsImpl<void>  signInFailure(AuthUIError authUiError) {
+    // nothing to do;
+    return new PromiseJsImpl<void>( () => print("SignIn Failure"));
+  }
+
+  // Example SignInSuccess callback handler
+  bool signInSuccess(fb.UserCredential authResult, String redirectUrl) {
+    print("sign in  success. ProviderID =  ${authResult.credential.providerId}");
+    print("Info= ${authResult.additionalUserInfo}");
+
+    // returning false gets rid of the double page load (no need to redirect to /)
+    return false;
   }
 
   /// Your Application must provide the UI configuration for the
@@ -83,21 +81,18 @@ class MyApp {
           scopes: [/*'repo', 'gist' */]);
 
 
-      // You can provide callbacks for signIn, etc.
-      // You may not need these unless you want to capture the access token
-      // or id token that a provider returns. It may be sufficient
-      // to test for the firebase current user being non null.
       var callbacks = new Callbacks(
-          uiShown: allowInterop(() => print("UI shown callback")),
-          signInSuccess: allowInterop( signInSuccess ),
-          signInFailure: allowInterop(() => print("Sigin in failure")));
+          uiShown: () => print("UI shown callback"),
+          signInSuccessWithAuthResult: allowInterop(signInSuccess),
+          signInFailure: signInFailure
+      );
+
 
       _uiConfig = new UIConfig(
           signInSuccessUrl: '/',
           signInOptions: [
             googleOptions,
             fb.EmailAuthProvider.PROVIDER_ID,
-            //fb.GithubAuthProvider.PROVIDER_ID
             gitHub
           ],
           signInFlow: "redirect",
@@ -126,12 +121,5 @@ void main() {
     databaseURL: "https://dart-ui-demo.firebaseio.com",
     storageBucket: "dart-ui-demo.appspot.com",
   );
-
-  bootstrapStatic(
-      MyApp,
-      [
-        //const Provider(APP_BASE_HREF, useValue: '/'),
-        //new Provider(Window, useValue: window),
-      ],
-      ng.initReflector);
+  runApp(ng.MyAppNgFactory);
 }
