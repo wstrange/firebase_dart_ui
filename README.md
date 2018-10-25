@@ -26,6 +26,8 @@ You must add these lines to your index.html `<head>` section:
 
 ```html
 <script src="https://www.gstatic.com/firebasejs/x.y.z/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/x.y.z/firebase-auth.js"></script>
+
 <script src="https://cdn.firebase.com/libs/firebaseui/x.y.z/firebaseui.js"></script>
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/x.y.z/firebaseui.css" />
 ```

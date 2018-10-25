@@ -1,12 +1,12 @@
 name: firebase_dart_ui.example
 description: Firebase UI wrapper Example
-version: 0.0.12
+version: 0.0.13
 environment:
   sdk: '>2.0.0 <3.0.0'
 
 dependencies:
   angular:  ^5.0.0
-  firebase: ^5.0.1
+  firebase: ^5.0.2
   firebase_dart_ui:
     path: ../../firebase_dart_ui
 

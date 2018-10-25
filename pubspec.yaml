@@ -1,6 +1,6 @@
 name: firebase_dart_ui
-description: An Angular Dart wrapper for Firebase UI.
-version: 0.1.0
+description: An Angular Dart wrapper for Firebase UI. Demo app at https://dart-ui-demo.firebaseapp.com/
+version: 0.1.1
 homepage: https://github.com/wstrange/firebase_dart_ui
 author: Warren Strange <warren.strange@gmail.com>
 
@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   angular:  ^5.0.0
-  firebase: ^5.0.1
+  firebase: ^5.0.2
   js: ^0.6.1+1
 
 dev_dependencies:
