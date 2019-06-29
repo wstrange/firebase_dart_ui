@@ -119,6 +119,7 @@ abstract class UIConfig {
   external String get signInSuccessUrl;
   external String get signInFlow;   // redirect or popup
   external String get tosUrl;       // Terms of service URL
+  external String get privacyPolicyUrl;       // Privacy Url
   external String get credentialHelper;
 
   external factory UIConfig({
@@ -127,6 +128,7 @@ abstract class UIConfig {
     String signInSuccessUrl,
     String signInFlow = "redirect",
     String tosUrl,
+    String privacyPolicyUrl,
     String credentialHelper = ACCOUNT_CHOOSER,
   });
 }
