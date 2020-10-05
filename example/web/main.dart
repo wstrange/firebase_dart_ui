@@ -3,10 +3,7 @@ import 'package:angular/angular.dart';
 import 'package:firebase_dart_ui/firebase_dart_ui.dart';
 import 'package:firebase/firebase.dart' as fb;
 
-
-import 'package:firebase/src/interop/firebase_interop.dart';
-
-import "dart:html";
+import 'package:firebase/src/interop/es6_interop.dart';
 
 import 'package:js/js.dart';
 
@@ -18,24 +15,24 @@ import 'main.template.dart' as ng;
 @Component(
   selector: 'my-app',
   template: '''
-  
+
   <div *ngIf="!isAuthenticated()">
         <p>Login</p>
     </div>
-    
+
     <firebase-auth-ui [disableAutoSignIn]="true" [uiConfig]="getUIConfig()"></firebase-auth-ui>
-    
+
     <br/>
     <div *ngIf="isAuthenticated()">
       Authenticated!
       <p>User email: {{userEmail}}  Display Name: {{displayName}}</p>
       <p>User Json: {{userJson}}</p>
-      <p>Provider Access Token 
+      <p>Provider Access Token
       (may not be present unless session is new) : {{providerAccessToken}}</p>
       <button (click)="logout()">Logout</button>
     </div>
-     
-    
+
+
 ''',
   directives: const [NgIf, FirebaseAuthUIComponent],
   providers: const [],
@@ -48,16 +45,16 @@ class MyApp {
     providerAccessToken = "";
   }
 
-
   // todo: We need to create a nicer wrapper for the sign in callbacks.
-  PromiseJsImpl<void>  signInFailure(AuthUIError authUiError) {
+  PromiseJsImpl<void> signInFailure(AuthUIError authUiError) {
     // nothing to do;
-    return new PromiseJsImpl<void>( () => print("SignIn Failure"));
+    return new PromiseJsImpl<void>(() => print("SignIn Failure"));
   }
 
   // Example SignInSuccess callback handler
   bool signInSuccess(fb.UserCredential authResult, String redirectUrl) {
-    print("sign in  success. ProviderID =  ${authResult.credential.providerId}");
+    print(
+        "sign in  success. ProviderID =  ${authResult.credential.providerId}");
     print("Info= ${authResult.additionalUserInfo}");
 
     // returning false gets rid of the double page load (no need to redirect to /)
@@ -80,13 +77,10 @@ class MyApp {
           // See https://developer.github.com/apps/building-oauth-apps/scopes-for-oauth-apps/
           scopes: [/*'repo', 'gist' */]);
 
-
       var callbacks = new Callbacks(
-          uiShown: () => print("UI shown callback"),
+          uiShown: allowInterop(() => print("UI shown callback")),
           signInSuccessWithAuthResult: allowInterop(signInSuccess),
-          signInFailure: signInFailure
-      );
-
+          signInFailure: allowInterop(signInFailure));
 
       _uiConfig = new UIConfig(
           signInSuccessUrl: '/',
@@ -111,7 +105,6 @@ class MyApp {
 
   // If the provider gave us an access token, we put it here.
   String providerAccessToken = "";
-
 }
 
 void main() {
