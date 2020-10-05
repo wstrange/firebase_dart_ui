@@ -6,8 +6,7 @@ import 'package:firebase/firebase.dart' as fb;
 
 // The following imports reach into the Firebase Dart implementation
 import 'package:firebase/src/interop/auth_interop.dart' show AuthJsImpl;
-import 'package:firebase/src/interop/firebase_interop.dart' show PromiseJsImpl;
-
+import 'package:firebase/src/interop/es6_interop.dart' show PromiseJsImpl;
 
 /// Provides JS / Dart interop
 /// See https://github.com/firebase/firebaseui-web for the JS API
@@ -51,8 +50,10 @@ abstract class AuthUIError {
 }
 
 // Convenience definitions of below Callback interfaces
-typedef SignInAuthResultSuccess = bool Function(fb.UserCredential authResult, String redirectUrl);
-typedef SignInSuccess = bool Function(fb.User currentUser, AuthCredential credential, String redirectUrl);
+typedef SignInAuthResultSuccess = bool Function(
+    fb.UserCredential authResult, String redirectUrl);
+typedef SignInSuccess = bool Function(
+    fb.User currentUser, AuthCredential credential, String redirectUrl);
 typedef SignInFailure = PromiseJsImpl<void> Function(AuthUIError error);
 
 @JS()
@@ -63,18 +64,16 @@ abstract class Callbacks {
   external SignInFailure get signInFailure;
   external void Function() get uiShown;
 
-  external factory Callbacks({
-    SignInAuthResultSuccess signInSuccessWithAuthResult,   // <--new in 2.7.0
-    SignInSuccess signInSuccess,           // <--deprecated in 2.7.0
-    SignInFailure signInFailure,
-    void Function() uiShown
-  });
+  external factory Callbacks(
+      {SignInAuthResultSuccess signInSuccessWithAuthResult, // <--new in 2.7.0
+      SignInSuccess signInSuccess, // <--deprecated in 2.7.0
+      SignInFailure signInFailure,
+      void Function() uiShown});
 }
 
 @JS()
 @anonymous
 abstract class CustomParameters {}
-
 
 @JS()
 @anonymous
@@ -108,7 +107,7 @@ abstract class CustomSignInOptions {
   external dynamic get customParameters;
 
   external factory CustomSignInOptions(
-    {provider, scopes: const [], CustomParameters customParameters});
+      {provider, scopes: const [], CustomParameters customParameters});
 }
 
 @anonymous
@@ -117,9 +116,9 @@ abstract class UIConfig {
   external List<dynamic> get signInOptions;
   external Callbacks get callbacks;
   external String get signInSuccessUrl;
-  external String get signInFlow;   // redirect or popup
-  external String get tosUrl;       // Terms of service URL
-  external String get privacyPolicyUrl;       // Privacy Url
+  external String get signInFlow; // redirect or popup
+  external String get tosUrl; // Terms of service URL
+  external String get privacyPolicyUrl; // Privacy Url
   external String get credentialHelper;
 
   external factory UIConfig({
