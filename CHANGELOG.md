@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.2.0
+
+- AngularDart 6.0.0 dependency update
+
 ### 0.1.4
 
 - Upgraded firebase versions to 7.3.0, firebaseui to 4.6.1
